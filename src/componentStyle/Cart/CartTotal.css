@@ -1,0 +1,56 @@
+.cartTotalContainer{
+    flex-grow: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 1rem;
+    flex-grow: 3;
+    max-height: 20rem;
+    max-width: 30rem;
+    margin: 2rem;
+    border: 0.2rem solid #07AF9B;
+    background-color: #cbf0ea;
+}
+
+.totalCartValueContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.totalDiscriptionText{
+    flex-grow: 1;
+    font-size: 1.4rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+.totalValue{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    flex-grow: 1;
+    font-size: 2rem;
+    justify-content: flex-end;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+#totalCartCost{
+    margin-left: 1rem;
+}
+
+.proceedButtonContainer
+{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3rem;
+}
+.proceedButton{
+    background-color: #07AF9B;
+    color: white;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    font-weight: bold;
+    width: fit-content;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border: 0;
+}

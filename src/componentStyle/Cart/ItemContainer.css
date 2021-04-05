@@ -1,0 +1,7 @@
+.allItemContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    min-width: 30rem;
+    flex-grow: 7;
+}

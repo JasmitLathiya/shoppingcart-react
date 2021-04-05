@@ -1,0 +1,11 @@
+.yourCartText{
+    position: relative;
+    left: 2rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.cartDetailsContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
