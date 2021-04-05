@@ -25,7 +25,7 @@ class Home extends Component {
                 })
             })
             .catch(err => {
-                alert("Unable to fetch data")
+                alert("Unable to fetch data!")
                 console.error(err);
             })
             .finally(() => {
