@@ -1,20 +1,30 @@
-import React from 'react';
-import Item from "./Item.js";
+import React, { Component } from 'react';
 import '../../componentStyle/Home/ItemContainer.css'
-import {constantValue} from '../../registry.js'
+import Loader from '../Loader.js'
+import Item from './Item.js'
+import {connect} from 'react-redux'
 
-
-function ItemContainer(props){ 
-    localStorage.setItem(constantValue.localStorageVariable,JSON.stringify([]));
-    return ( 
-        <div className="homeAllItemContainer">                
-            {props.itemData.map(data => {
-                return <Item key = {data.id} itemData = {data}/>
-            })}
-        </div>
-        );
+class ItemContainer extends Component {
+    render() { 
+        return ( 
+            this.props.loading ?
+            <Loader/> :
+            <div className="homeAllItemContainer">
+                {
+                    this.props.itemData.map(data => {
+                        return <Item key = {data.id} itemData={data}/>
+                    })
+                }
+            </div>
+            );
+    }
 }
-
-
  
-export default ItemContainer;
+const mapStateToProps = (state) => {
+    return{
+        loading : state.loading,
+        itemData : state.itemData
+    }
+}
+ 
+export default connect(mapStateToProps)(ItemContainer);

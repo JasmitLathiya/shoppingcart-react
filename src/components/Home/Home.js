@@ -1,54 +1,57 @@
 import React, { Component } from 'react';
-import Loader from '../Loader.js';
 import ItemContainer from './ItemContainer.js'
 import '../../componentStyle/Home/Home.css'
+import {connect} from 'react-redux'
+import {setData} from '../../redux/actions/actions.js'
 
 
 class Home extends Component {
-    constructor(props)
-    {
-        super(props);
-        this.state = {
-            loading : true,
-            itemData : []         
-        }
-    }
-
     componentDidMount()
     {
-        fetch('./jsonData/productDetails.json')
-            .then(response => response.json())
-            .then(data => {
-                this.setState(
-                {
-                    itemData : data
-                })
-            })
-            .catch(err => {
-                alert("Unable to fetch data!")
-                console.error(err);
-            })
-            .finally(() => {
-                this.setState(
-                {
-                    loading : false
-                })
-            })
+        this.props.setData();
     }
-
     render() { 
         return ( 
             <div>
                 <h2 className="ourProductsText">Our Products</h2>
-                <div>
-                    {this.state.loading ? 
-                        <Loader/> :
-                        <ItemContainer itemData={this.state.itemData}/>
-                    }
-                </div>
+                <ItemContainer/>
             </div>
          );
     }
 }
- 
-export default Home;
+
+// const mapDispatchToProps = (dispatch) => {
+//     return{
+//         setData : () => {
+//             fetch('./jsonData/productDetails.json')
+//             .then(response => response.json())
+//             .then(data => {
+//                 data.forEach(element => {
+//                         element.count = 1;
+//                         element.itemInCart = false;
+//                     }
+//                 )
+//                 return dispatch( {
+//                     type : 'SET_DATA',
+//                     itemData : data
+//                 })
+//             })
+//             .catch(err => alert("Unable to fetch data !!!"))
+//         },
+//     }
+// }
+
+// const mapStateToProps = (state) =>
+// {
+//     return{
+//         state
+//     }
+// }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setData : () => {dispatch(setData())}
+    }
+}
+
+export default connect(null,mapDispatchToProps)(Home);

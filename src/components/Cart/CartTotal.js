@@ -1,49 +1,26 @@
 import React, { Component } from 'react';
 import BaseButton from '../BaseButton.js'
 import '../../componentStyle/Cart/CartTotal.css'
+import {connect} from 'react-redux'
 
 class CartTotal extends Component {
-    constructor(props)
-    {
-        super(props)
-        this.state = {
-            totalItem : 0,
-            totalCost : 0
-        }
-    }
-
-    shouldComponentUpdate(nextProps, nextState)
-    {
-        let updatedState = nextProps.itemData.reduce((accumulator,currentValue) => {
-            return {
-                count : accumulator.count+currentValue.count,
-                cost : accumulator.cost+currentValue.pricePerItem * currentValue.count,
-            }
-        },{count:0,cost:0})
-
-        if(updatedState.count!==this.state.totalItem)
-        {
-            this.setState({
-                totalItem : updatedState.count,
-                totalCost : updatedState.cost
-            })
-            return true
-        }
-        else{
-            return false
-        }
-    }
 
     render() { 
+        let updatedState = this.props.itemData.reduce((accumulator,currentValue) => {
+            return{
+                    count : accumulator.count + (currentValue.itemInCart ? currentValue.count : 0),
+                    cost : accumulator.cost + (currentValue.itemInCart ? currentValue.pricePerItem * currentValue.count : 0),
+                }
+        },{count:0,cost:0})
         return ( 
             <div className="cartTotalContainer">
                 <p className="totalCartValueContainer">
                     <span className="totalDiscriptionText">Total Items :</span>
-                    <span id="totalItem" className="totalValue">{this.state.totalItem}</span>
+                    <span id="totalItem" className="totalValue">{updatedState.count}</span>
                 </p>
                 <p className="totalCartValueContainer">
                     <span className="totalDiscriptionText">Total Cost :</span>
-                    <span className="totalValue">₹ <span id="totalCartCost">{this.state.totalCost}</span> </span>
+                    <span className="totalValue">₹ <span id="totalCartCost">{updatedState.cost}</span> </span>
                 </p>
                 <div className="proceedButtonContainer">
                     <BaseButton label="PROCEED TO PAY" className="proceedButton"/>
@@ -52,5 +29,12 @@ class CartTotal extends Component {
          );
     }
 }
+
+const mapStateToProps = (state) => {
+    return{
+        itemData : state.itemData,
+        state
+    }
+}
  
-export default CartTotal;
+export default connect(mapStateToProps)(CartTotal);

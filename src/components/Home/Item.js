@@ -1,39 +1,16 @@
 import React, { Component } from 'react';
 import BaseButton from '../BaseButton.js'
 import '../../componentStyle/Home/Item.css';
-import {constantValue} from '../../registry.js'
+import { addToCart,removeFromCart } from "../../redux/actions/actions.js";
+import {connect} from 'react-redux'
+
 
 class Item extends Component {
-    constructor(props)
-    {
-        super(props);
-        this.state = {
-            itemInCart : false
-        }
-    }
-
     handleAddToCart()
     {
-        let updatedItemInCart = this.state.itemInCart;
-        updatedItemInCart ? this.removeItemFromLocalStorage(this.props.itemData) : this.addItemInLocalStorage(this.props.itemData);
-        updatedItemInCart = !updatedItemInCart;
-
-        this.setState({
-            itemInCart : updatedItemInCart
-        })
+        this.props.itemData.itemInCart ? this.props.removeFromCart(this.props.itemData.id) : this.props.addToCart(this.props.itemData.id)
     }
-
-    addItemInLocalStorage(data){
-        let dataArrayInLocalStorage = JSON.parse(localStorage.getItem(constantValue.localStorageVariable));
-        dataArrayInLocalStorage.push(data);
-        localStorage.setItem(constantValue.localStorageVariable,JSON.stringify(dataArrayInLocalStorage));
-    }
-
-    removeItemFromLocalStorage(data){
-        let dataArrayInLocalStorage = JSON.parse(localStorage.getItem(constantValue.localStorageVariable));
-        dataArrayInLocalStorage = dataArrayInLocalStorage.filter(arrayElement => arrayElement.id!==data.id);
-        localStorage.setItem(constantValue.localStorageVariable,JSON.stringify(dataArrayInLocalStorage));
-    }
+    
     render() { 
         return ( 
             <div className="homeItemContainer">
@@ -42,12 +19,26 @@ class Item extends Component {
                 <p className="homeItemPrice">{"₹ " + this.props.itemData.pricePerItem}</p>
 
                 <BaseButton 
-                    label = {this.state.itemInCart ? "Remove from cart" : "Add to cart"}
-                    className = {this.state.itemInCart ? "removeFromCartButton" : "addToCartButton"} 
+                    label = {this.props.itemData.itemInCart ? "Remove from cart" : "Add to cart"}
+                    className = {this.props.itemData.itemInCart ? "removeFromCartButton" : "addToCartButton"} 
                     clickFunction={() => this.handleAddToCart()}/>
             </div>
          );
     }
 }
  
-export default Item;
+const mapStateToProps = (state)=>
+{
+    return {
+        state
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        addToCart : (id) => {dispatch(addToCart(id))},
+        removeFromCart : (id) => {dispatch(removeFromCart(id))}
+    }
+}
+ 
+export default connect(mapStateToProps,mapDispatchToProps)(Item);
